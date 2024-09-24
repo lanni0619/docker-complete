@@ -1,0 +1,33 @@
+# The code in here are tell the Docker how to setup image(template of container)
+
+# Step 1
+## Build your image up on another base Image
+## All caps FROM plus exist image or docker hub
+FROM node
+
+# Step 2
+# setting the work directory of the Docker container
+# All the subsequent commands will be executed from inside that folder
+# example: "RUN npm install"
+# Watch out image layers concept => Put "RUN npm install" before "COPY . /app"
+WORKDIR /app
+COPY package.json /app
+RUN npm install
+
+# Step 3
+## A container contains environment+code!
+## Hence your code should go in there
+## First dot: Host file system (All the file in the root folder)
+## Second: is the path inside of the image where those file should be stored (equal to WORKDIR)
+COPY . /app
+
+# Step 4
+# The Docker container is isolated from our local environment
+# It's has its own internal network
+# So the container does not expose that port to our local machine
+EXPOSE 80
+
+# CMD: The server will start when a container is started based on the image.
+# [error] RUN node server.js
+# Because it tell Docker run the server in the image(template).
+CMD ["node", "server.js"]
