@@ -1,6 +1,6 @@
-#### Outline
+### Outline
 
-- How to use Docker Container & Image
+- Container & Image
   - [Basic command](#basic-command)
   - [Command of Managing](#command-of-managing)
   - [Attached/detached mode](#attacheddetached-mode)
@@ -12,6 +12,10 @@
   - [Naming & Tagging](#naming--tagging)
   - [Sharing Images](#sharing-images)
   - [Pushing/Pulling](#pushingpulling)
+- Managing data & Volumes
+  - [Intro - data](#intro---data)
+
+### Container & Image
 
 #### Basic command
 
@@ -29,6 +33,7 @@
   - -p stands for publish
   - connect local port & expose port
   - syntax: -p local_port:exposed_port
+- [back to outline](#outline)
 
 #### Command of Managing
 
@@ -36,6 +41,7 @@
   Showing all docker commands
 - docker ps --help
   Showing all options of ps
+- [back to outline](#outline)
 
 #### Attached/detached mode
 
@@ -54,6 +60,7 @@
   follow log output => attach again
 - docker attach container
   attach to a running container
+- [back to outline](#outline)
 
 #### Interactive Mode
 
@@ -69,6 +76,7 @@
   - docker start --help
   - Also have -i option to active interactive mode.
   - docker start -i container
+- [back to outline](#outline)
 
 #### Deleting
 
@@ -83,12 +91,14 @@
   - docker images => list images
   - docker rmi image1 image2 ... => remove image
   - docker image prune => To remove all unused images
+- [back to outline](#outline)
 
 #### Removing stopped container automatically
 
 - docker run --help => --rm
   - Automatically remove the container and its associated anonymous volumes when it exits
   - docker run -p 3000:80 -d --rm image
+- [back to outline](#outline)
 
 #### Inspecting image
 
@@ -98,12 +108,14 @@
   - Get configuration for container
   - OS: linux
   - different layers of this image => different command make up it
+- [back to outline](#outline)
 
 #### Copying file into or from a container
 
 - Some situation you need to change or copy file in the container
-- docker cp SRC_LOCAL_PATH CONTAINER:DEST_PATH
-- docker cp CONTAINER:SRC_PATH DEST_LOCAL_PATH
+- docker cp SRC_LOCAL_PATH Container_name/id:DEST_PATH
+- docker cp Container_name/id:SRC_PATH DEST_LOCAL_PATH
+- [back to outline](#outline)
 
 #### Naming & Tagging
 
@@ -116,6 +128,7 @@
     - docker build -t goalapp:latest .
   - Run container by image's name:tag
     - docker run -p 8000:80 -d --rm --name goalapp goalapp:latest
+- [back to outline](#outline)
 
 #### Sharing Images
 
@@ -125,10 +138,11 @@
 - Share a Image (convention)
   - download image and run a container base on it.
   - No build step required.
+- [back to outline](#outline)
 
 #### Pushing/Pulling
 
-- Two place to push/pull (dockerhub / private registry)
+- Two place to push/pull (dockerhub / private registry in later course)
 - dockerhub
   - Create a repo
   - Push
@@ -149,4 +163,45 @@
     - Updating to local automatically.
     - Check for the latest version at dockerhub repo.
     - It's will not check for latest version if running image in local.
-    - - docker run -p 3000:3000 --rm -d lanni0619/node-hello-world
+    - docker run -p 3000:3000 --rm -d lanni0619/node-hello-world
+- [back to outline](#outline)
+
+### Managing data & Volumes
+
+#### Intro - data
+
+- Understanding different kind of data
+- Images, Containers & Volumes
+- Using Arguments & Environment Variables
+
+#### Data categories
+
+- application (code + environment)
+  - written by developer
+  - Fixed: Can not be changed once image is built
+- temporary App data
+  - Stored in memory or temporary files
+  - Dynamic and changing, but cleared regularly
+  - Read + Write, temporary, hence stored in Container
+    - extra, read-write layer
+    - neither local machine nor image layer
+- Permanent App Data
+  - e.g. user accounts
+  - Stored in files or a database
+  - Must not be lost if stops / restrarts
+  - Read + Write, permanent, hence stored with Containers & Volumes
+- Demonstrating project
+  - data-volumes-01
+  - Problem: The permanent data will be removed along with container.
+  - Solution: Volume
+- [back to outline](#outline)
+
+#### Volumes
+
+- Folders on your host machine
+  - Mounted(made available, mapped) into containers
+  - Volumes persist if a container is removed.
+  - Container can write data into or read data from volumes.
+- Setting Volume (dockerfile)
+  - Following "data-volumes-01" project
+  - Instruction: VOLUME ["/app/feedback"]
