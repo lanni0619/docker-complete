@@ -14,6 +14,9 @@
   - [Pushing/Pulling](#pushingpulling)
 - Managing data & Volumes
   - [Intro - data](#intro---data)
+  - [Data Categories](#data-categories)
+  - [Volumes](#volumes)
+  - [External data storage](#external-data-storage)
 
 ### Container & Image
 
@@ -204,4 +207,29 @@
   - Container can write data into or read data from volumes.
 - Setting Volume (dockerfile)
   - Following "data-volumes-01" project
-  - Instruction: VOLUME ["/app/feedback"]
+  - Instruction of anonymous volume: VOLUME ["/app/feedback"]
+- [back to outline](#outline)
+
+#### External Data Storage
+
+- Volumes (Managed by Docker)
+  - anonymous volume
+    - Attached to a container
+      - **Only exists as long as our container exists.**
+      - The data's location is unknown to you.
+      - Managed via docker volume command
+        - docker vloume ls
+        - docker volume prune
+  - named volumes
+    - Detached to a container
+      - **Surviving after container being removed.**
+      - Still can not access by you.
+    - command
+      - docker run -v volumes_name:/app/data
+- Bind Mounts (Managed by yourself)
+  - Command
+    - docker run -v local_absolute_path:/app
+      - Example: Bind entire folder to conatiner workdir
+        - docker run -v "D:\coding\docker-complete:/app"
+        - Quote to ensure that doesn't break in case your path include special char.
+- [back to outline](#outline)

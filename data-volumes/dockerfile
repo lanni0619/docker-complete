@@ -11,3 +11,38 @@ COPY . .
 EXPOSE 80
 
 CMD [ "node" , "server.js" ]
+
+# Course note
+# A)
+# Running with 3 kinds of data to demonstrate mananging data.
+# Source code with environment, temporary data and permanent data
+# dockerize this app & solving problem with tools that docker give us.
+
+# B) Recording the command in course
+
+# B-1)
+# docker build -t feedback-node .
+# docker run -p 3000:80 -d --rm --name feedback-app feedback-node
+# docker run -p 3000:80 -d --name feedback-app feedback-node
+
+# B-2)
+# Adding VOLUMES instruction
+# docker build -t feedback-node:volumes .
+# docker run -p 3000:80 -d --rm --name feedback-app feedback-node:volumes
+# Getting error when running container => Fixed the source code => fs.rename
+# After fixed it => Still not working => why ???
+
+# B-3)
+# We have no way of knowing where the data is stored
+# Managed via docker command => docker volume ls
+# Named volume
+    # Deleting VOLUME instruction in dockerfile
+    # rebuild image with -v option
+        # docker run -p 3000:80 --rm --name feedback-app -d -v feedback:/app/feedback feedback-node:volume
+    # Stopping container => volume still survive
+    # restart again with the same -v option
+# Bind mount
+    # docker run -p 3000:80 --rm --name feedback-app -d -v feedback:/app/feedback -v "D:\coding\docker-complete:/app" feedback-node:volume
+        # Crashed & removed immediately
+        # Get rid of --rm
+        # Take a look to logs => docker logs container
