@@ -47,5 +47,7 @@ app.post("/create", async (req, res) => {
   });
 });
 
+console.log("Test");
+
 app.listen(80);
 

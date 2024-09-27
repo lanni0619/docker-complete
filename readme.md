@@ -16,7 +16,7 @@
   - [Intro - data](#intro---data)
   - [Data Categories](#data-categories)
   - [Volumes](#volumes)
-  - [External data storage](#external-data-storage)
+  - [Anonymous, Named & bind-mount](#anonymous-named--bind-mount)
 
 ### Container & Image
 
@@ -210,9 +210,9 @@
   - Instruction of anonymous volume: VOLUME ["/app/feedback"]
 - [back to outline](#outline)
 
-#### External Data Storage
+#### Anonymous, Named & Bind Mount
 
-- Volumes (Managed by Docker)
+- Volume (Managed by Docker)
   - anonymous volume
     - Attached to a container
       - **Only exists as long as our container exists.**
@@ -220,16 +220,28 @@
       - Managed via docker volume command
         - docker vloume ls
         - docker volume prune
-  - named volumes
+  - named volume
     - Detached to a container
       - **Surviving after container being removed.**
       - Still can not access by you.
     - command
       - docker run -v volumes_name:/app/data
-- Bind Mounts (Managed by yourself)
-  - Command
-    - docker run -v local_absolute_path:/app
-      - Example: Bind entire folder to conatiner workdir
-        - docker run -v "D:\coding\docker-complete:/app"
-        - Quote to ensure that doesn't break in case your path include special char.
+  - Bind Mount (Managed by yourself)
+    - Command
+      - docker run -v local_absolute_path:/app
+        - Example: Bind entire folder to conatiner workdir
+          - docker run -v "D:\coding\docker-complete:/app"
+          - Quote to ensure that doesn't break in case your path include special char.
+    - Differents
+      - Volume outsource certain data to local machine.
+      - Bind Mount overwrite local file to container.
+      - Using anonymous volume to avoid overwriting node_modules
+  - NodeJS specific adjustment: nodemon
+    - wsl2-file-events.pdf
+  - Summary (Detail in pdf)
+    |Comparison| Anonymous | Named | Bind Mount |
+    | ---------| --------- | ----- |----------- |
+    | container | attached | dettached | Not tied to specific container|
+    | handy feature | lock exist file | Can be re-used | Can be re-used |
+    | | outsource certain data| shared across containers | shared across containers|
 - [back to outline](#outline)
