@@ -10,7 +10,9 @@ COPY . .
 
 EXPOSE 80
 
-CMD [ "node" , "server.js" ]
+# VOLUME [ "/app/node_modules" ]
+
+CMD [ "npm" , "start" ]
 
 # Course note
 # A)
@@ -42,7 +44,18 @@ CMD [ "node" , "server.js" ]
     # Stopping container => volume still survive
     # restart again with the same -v option
 # Bind mount
-    # docker run -p 3000:80 --rm --name feedback-app -d -v feedback:/app/feedback -v "D:\coding\docker-complete:/app" feedback-node:volume
+    # Command
+        # docker run -v local_path:/app
+        # docker run -p 3000:80 --rm --name feedback-app -d -v feedback:/app/feedback -v "D:\coding\docker-complete:/app" feedback-node:volume
         # Crashed & removed immediately
-        # Get rid of --rm
-        # Take a look to logs => docker logs container
+            # Get rid of --rm
+            # Take a look to logs => docker logs container 
+            # Error: Can not find module
+                # Because we use -v to replace all container file (include module) to local workdir
+                # But we don't have module in local
+    # Solution 
+        # Setting node_modules to anonymous volume
+            # docker run -v /app/node_modules
+            # Principle: Deepth win
+                # /app/node_modules > /app 
+        # docker run -p 3000:80 -d --rm --name feedback-app -v feedback:/app/feedback -v "D:\coding\docker-complete\data-volumes:/app" -v /app/node_modules feedback-node:volume
