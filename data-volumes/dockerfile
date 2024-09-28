@@ -59,3 +59,10 @@ CMD [ "npm" , "start" ]
             # Principle: Deepth win
                 # /app/node_modules > /app 
         # docker run -p 3000:80 -d --rm --name feedback-app -v feedback:/app/feedback -v "D:\coding\docker-complete\data-volumes:/app" -v /app/node_modules feedback-node:volume
+    # Read-Only Volume
+        # Making docker can only read the /app
+            # add :ro
+        # add anonymous vloume
+            # docker -v /app/tempdocker run -v local_path:/app:ro
+            # Making temp folder writable.
+            # docker run -p 3000:80 -d --rm --name feedback-app -v feedback:/app/feedback -v "D:\coding\docker-complete\data-volumes:/app:ro" -v /app/temp -v /app/node_modules feedback-node:volume

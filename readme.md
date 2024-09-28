@@ -227,6 +227,8 @@
     - command
       - docker run -v volumes_name:/app/data
   - Bind Mount (Managed by yourself)
+    - feature
+      - Not managed by docker
     - Command
       - docker run -v local_absolute_path:/app
         - Example: Bind entire folder to conatiner workdir
@@ -245,3 +247,17 @@
     | handy feature | lock exist file | Can be re-used | Can be re-used |
     | | outsource certain data| shared across containers | shared across containers|
 - [back to outline](#outline)
+
+#### Read-Only Volume
+
+- Read-write
+  - The default for Volume is read-write.
+- The ideas of bind mount
+  - We only want to change those files by myself.
+  - Ensuring that docker will not be able to write into /app.
+- Use Ready-only instruction
+  - docker run -v "local_path:/app:ro"
+  - But some files should writable.
+    - add anonymous volume for specific file (temp) after bind mount.
+    - To override bind mount setting.
+    - docker run -v local_path:/app:ro -v /app/temp
