@@ -47,7 +47,9 @@ app.post("/create", async (req, res) => {
   });
 });
 
-console.log("Test");
+app.listen(process.env.PORT, () => {
+  console.log(`Server is running on PORT:${process.env.PORT}`);
+});
 
-app.listen(80);
+// docker run -p 3000:8000 --env PORT=8000 -d --rm --name feedback-app -v feedback:/app/feedback -v "D:\coding\docker-complete\data-volumes:/app:ro" -v /app/temp -v /app/node_modules feedback-node:ENV
 

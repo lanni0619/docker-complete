@@ -8,61 +8,14 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 80
+ARG DEFAULT_PORT=80
+
+ENV PORT=${DEFAULT_PORT}
+
+EXPOSE ${PORT}
 
 # VOLUME [ "/app/node_modules" ]
 
 CMD [ "npm" , "start" ]
 
-# Course note
-# A)
-# Running with 3 kinds of data to demonstrate mananging data.
-# Source code with environment, temporary data and permanent data
-# dockerize this app & solving problem with tools that docker give us.
-
-# B) Recording the command in course
-
-# B-1)
-# docker build -t feedback-node .
-# docker run -p 3000:80 -d --rm --name feedback-app feedback-node
-# docker run -p 3000:80 -d --name feedback-app feedback-node
-
-# B-2)
-# Adding VOLUMES instruction
-# docker build -t feedback-node:volumes .
-# docker run -p 3000:80 -d --rm --name feedback-app feedback-node:volumes
-# Getting error when running container => Fixed the source code => fs.rename
-# After fixed it => Still not working => why ???
-
-# B-3)
-# We have no way of knowing where the data is stored
-# Managed via docker command => docker volume ls
-# Named volume
-    # Deleting VOLUME instruction in dockerfile
-    # rebuild image with -v option
-        # docker run -p 3000:80 --rm --name feedback-app -d -v feedback:/app/feedback feedback-node:volume
-    # Stopping container => volume still survive
-    # restart again with the same -v option
-# Bind mount
-    # Command
-        # docker run -v local_path:/app
-        # docker run -p 3000:80 --rm --name feedback-app -d -v feedback:/app/feedback -v "D:\coding\docker-complete:/app" feedback-node:volume
-        # Crashed & removed immediately
-            # Get rid of --rm
-            # Take a look to logs => docker logs container 
-            # Error: Can not find module
-                # Because we use -v to replace all container file (include module) to local workdir
-                # But we don't have module in local
-    # Solution 
-        # Setting node_modules to anonymous volume
-            # docker run -v /app/node_modules
-            # Principle: Deepth win
-                # /app/node_modules > /app 
-        # docker run -p 3000:80 -d --rm --name feedback-app -v feedback:/app/feedback -v "D:\coding\docker-complete\data-volumes:/app" -v /app/node_modules feedback-node:volume
-    # Read-Only Volume
-        # Making docker can only read the /app
-            # add :ro
-        # add anonymous vloume
-            # docker -v /app/tempdocker run -v local_path:/app:ro
-            # Making temp folder writable.
-            # docker run -p 3000:80 -d --rm --name feedback-app -v feedback:/app/feedback -v "D:\coding\docker-complete\data-volumes:/app:ro" -v /app/temp -v /app/node_modules feedback-node:volume
+# - docker run -p 3000:8000 --env-file ./.env -d --rm --name feedback-app -v feedback:/app/feedback -v "D:\coding\docker-complete\data-volumes:/app:ro" -v /app/temp -v /app/node_modules feedback-node:ENV

@@ -18,6 +18,8 @@
   - [Volumes](#volumes)
   - [Anonymous, Named & bind-mount](#anonymous-named--bind-mount)
   - [Read-Only Volume](#read-only-volume)
+  - [Snapshot for production](#snapshot-for-production)
+  - [ARG & ENV Variables](#arg--env-variables)
 
 ### Container & Image
 
@@ -262,4 +264,34 @@
     - add anonymous volume for specific file (temp) after bind mount.
     - To override bind mount setting.
     - docker run -v local_path:/app:ro -v /app/temp
+- [back to outline](#outline)
+
+#### Snapshot for production
+
+- Only use bind mount in development.
+- When we deploy a container, we will not use bind mount.
+- There is no connection between running container & our code.
+- We always want to have a snapshot of our code to spin up production.
+- [back to outline](#outline)
+
+#### ARG & ENV Variables
+
+Prodiving developer build flexible image & container
+We don't have to hard-code everything into image & container
+
+- ARG
+  - Build-time variable
+  - Available
+    - Inside of Dockerfile
+  - Setting
+    - Via Command
+    - ducker build . --build-arg
+- ENV
+  - Available
+    - Inside of Dockerfile
+    - Application code
+  - Setting
+    - Via Dockerfile
+    - Via Command: [docker run container --env path]
+    - Via ".env" file: Using --env-file options
 - [back to outline](#outline)
