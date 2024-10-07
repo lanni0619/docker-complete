@@ -20,6 +20,7 @@
   - [Read-Only Volume](#read-only-volume)
   - [Snapshot for production](#snapshot-for-production)
   - [ARG & ENV Variables](#arg--env-variables)
+- Networks
 
 ### Container & Image
 
@@ -294,4 +295,16 @@ We don't have to hard-code everything into image & container
     - Via Dockerfile
     - Via Command: [docker run container --env path]
     - Via ".env" file: Using --env-file options
+- [back to outline](#outline)
+
+#### Containers & Network Requests
+
+- Requests from Container to WWW
+  - Container can do it natively
+- Requests from Container to host machine
+  - Use special domain
+    - host.docker.internal
+  - Origin: mongodb://localhost:27017/swfavorites
+  - Modify: mongodb://host.docker.internal:27017/swfavorites
+- Requests from Container to Other Container
 - [back to outline](#outline)
