@@ -1,0 +1,95 @@
+FROM node:14
+
+WORKDIR /app
+
+COPY package.json /app
+
+RUN npm install
+
+COPY . /app
+
+EXPOSE 8080
+
+ENV MONGODB_USERNAME=root
+ENV MONGODB_PASSWORD=default
+
+CMD [ "npm", "start" ]
+
+# Dockerize CMD STEPS
+
+# A) Connecting node to database (My STEPS)
+
+# A-1) Create Network
+# docker network create goal-net
+
+# A-2) Run mongodb container
+# docker run -d --name mongodb --network goal-net -v /my/own/datadir:/data/db mongo
+
+# A-3) Build node images
+# docker build -t goal-node .
+
+# A-4) Run goal-node image as a container (goal-app)
+# docker run -d --rm -p 3000:80 --name goal-app --network goal-net -v /app/node_modules -v /app/logs -v "C:\Users\sheng\vsProject\docker-complete\05-multi-setup\backend:/app:ro" goal-node
+
+# B) INSTRUCTOR's STEPS ---Part1
+
+# 依序dockerize DB, NODE, REACT並保持通訊功能正常
+
+# B-1) Dockerize DB
+    # docker run -d --rm -p 27017:27017 --name mongodb mongo
+
+# B-2) Dockerize NODE
+    # docker build -t goal-node .
+    # docker run -d --rm -p 8080:80 --name goal-app goal-node
+        # localhost port 80 is not available
+
+# B-3) Dockerize React
+    # docker build -t goal-react .
+    # docker run -d --rm -it -p 3000:3000 --name goal-front goal-react
+        # React need to set up -it (interaction mode)
+
+# C) INSTRUCTOR's STEPS ---Part2
+
+# C-1) Network & DB 
+    # Create Network "goal-net" & put db into goal-net
+    # docker run -d --rm --name mongodb --network goal-net mongo
+
+# C-2) Backend
+    # Changing domain of mongodb URL & rebuilding goal-node image
+    # docker build -t goal-node .
+    # docker run -d --rm --name goal-backend --network goal-net goal-node
+
+# C-3) Frontend
+    # Domain of backend URL
+        # React JavaScript code is actually running on the browser.
+        # React's server is running on the container to serve browser.
+        # So that broswer can not understand container's name.
+        # Keeping The backend domain at localhost
+        # No need to put react container into goal-net
+        # Publish backend's port which browser can understand.
+            # docker run -d --rm -p 8080:8080 --name goal-backend --network goal-net goal-node
+    # Build IMAGE
+        # docker build -t goal-react .
+    # RUN CONTAINER
+        # docker run --rm -it -p 3000:3000 --name goal-frontend goal-react
+
+# D) INSTRUCTOR's STEPS ---Part3
+
+# MongoDB
+    # Data Must be persist
+        # Named Volume
+        # docker run -d --rm --name mongodb --network goal-net -v data:/data/db mongo
+    # Access should be limited
+        # Authentication
+        # -e MONGO_INITDB_ROOT_USERNAME=admin
+        # -e MONGO_INITDB_ROOT_PASSWORD=1234
+# Node Backend
+    # Data Must be persist
+    # Live source code update
+        # docker run -d --rm -p 8080:8080 --name goal-backend --network goal-net -v /app/node_modules -v /app/logs -v "C:\Users\sheng\vsProject\docker-complete\05-multi-setup\backend:/app:ro" goal-node
+    # Setting ENV
+        # docker run -d --rm -p 8080:8080 --name goal-backend --network goal-net -v /app/node_modules -v /app/logs -v "C:\Users\sheng\vsProject\docker-complete\05-multi-setup\backend:/app:ro" -e MONGODB_USERNAME=admin -e MONGODB_PASSWORD=1234 goal-node
+
+# React Frontend
+    # Live source code update
+        # docker run --rm -it -p 3000:3000 --name goal-frontend -v C:\Users\sheng\vsProject\docker-complete\05-multi-setup\frontend\src:/app/src goal-react

@@ -21,6 +21,14 @@
   - [Snapshot for production](#snapshot-for-production)
   - [ARG & ENV Variables](#arg--env-variables)
 - Networks
+  - [Containers & Network Requests](#containers--network-requests)
+  - [How Docker Resolves IP Address](#how-docker-resolves-ip-address)
+- Multi-Container Application
+  - [Containers & Network Requests](#containers--network-requests)
+  - [How Docker Resolves IP Address](#how-docker-resolves-ip-address)
+  - [Network Project-05](#network-project-05)
+- Docker Compose
+  - [project-05-yaml-instruction](#project-05-yaml-instruction)
 
 ### Container & Image
 
@@ -297,6 +305,8 @@ We don't have to hard-code everything into image & container
     - Via ".env" file: Using --env-file options
 - [back to outline](#outline)
 
+### Network
+
 #### Containers & Network Requests
 
 - Requests from Container to WWW
@@ -308,3 +318,24 @@ We don't have to hard-code everything into image & container
   - Modify: mongodb://host.docker.internal:27017/swfavorites
 - Requests from Container to Other Container
 - [back to outline](#outline)
+
+#### How Docker Resolves IP Address
+
+- Docker will not replace your source code.
+- Docker resolves it when the request leaves the container.
+- [back to outline](#outline)
+
+#### Network Project-05
+
+- Build mongo, node & react container & communicate with each other.
+
+### docker compose
+
+#### project-05-yaml-instruction
+
+- Create compose file
+  - File extension is yaml or yml.
+- Command
+  - docker compose up -d
+  - docker compose down
+  - detail in 05-multi-setup\docker-compose.yaml
