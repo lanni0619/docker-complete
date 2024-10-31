@@ -1,0 +1,10 @@
+# Super slim version (180MB)
+FROM node:14-alpine
+
+WORKDIR /app
+
+ENTRYPOINT [ "npm" ]
+
+# No specify a fixed command
+# Give user a full control of image
+# CMD [ "npm install" ]

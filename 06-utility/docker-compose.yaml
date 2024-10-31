@@ -1,0 +1,13 @@
+services:
+  npm:
+    build: ./
+    volumes:
+      - ./:/app
+    stdin_open: true
+    tty: true
+# Using new command - run
+## Not remove container automatically
+## up & down command remove automatically
+## docker compose run --rm npm init
+
+

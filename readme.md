@@ -328,6 +328,7 @@ We don't have to hard-code everything into image & container
 #### Network Project-05
 
 - Build mongo, node & react container & communicate with each other.
+- [back to outline](#outline)
 
 ### docker compose
 
@@ -339,3 +340,50 @@ We don't have to hard-code everything into image & container
   - docker compose up -d
   - docker compose down
   - detail in 05-multi-setup\docker-compose.yaml
+- [back to outline](#outline)
+
+### Utility Container
+
+#### Introduction
+
+- Utility Container is named by instructor & not a offical term.
+- The main idea is that we don't need to install tools in our host machine.
+- With utility container, we don't need to install environment like node.js in host machine.
+- [back to outline](#outline)
+
+#### Different ways of running command in container
+
+- Way 1: Run node in foreground
+  - docker run -it node
+- Way 2: Run node in background
+  - docker run -it -d node
+  - docker exec -it container_name npm init
+  - Syntax: exec
+    - Execute a command in a running container
+- Way 3: Override the default command
+  - docker run -it node npm init
+  - The container is closed immediately after npm init
+  - Because we override the interactive mode command
+- [back to outline](#outline)
+
+#### Build utility Container
+
+- Create a dockerfile
+  - node-apline
+  - Not specify a fixed command
+  - build image
+- Run container
+  - Mirror container to local by bind-mount
+  - docker run -it -v D:\docker-complete\06-utility:/app node-util npm init
+  - "npm init" will override CMD in dockerfile
+- [back to outline](#outline)
+
+#### dockerfile-ENTRYPOINT
+
+- Syntax
+  - ENTRYPOINT [ "npm" ]
+  - We can append command after ENTRYPOINT
+- Command
+  - docker run -it -v D:\docker-complete\06-utility:/app mynpm init
+  - docker run -it -v D:\docker-complete\06-utility:/app mynpm install
+- With this, we don't need node in host machine to create project.
