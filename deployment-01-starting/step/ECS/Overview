@@ -1,0 +1,25 @@
+# Reference
+
+https://www.udemy.com/course/docker-kubernetes-the-practical-guide/learn/lecture/22626535#questions/19146302
+
+1. Create "Task definition" & setting container inside the edit page.
+
+- Task Name
+- Using AWS Fargate (Serverless Mode)
+- Container Name
+- Image URL (dockerhub repo)
+- Port Mappings
+
+2. Choose Task to Deploy(Create service)
+
+- https://img-b.udemycdn.com/redactor/raw/q_and_a/2023-02-03_02-03-01-bbdfbc7953149c04146dc499a82a4949.png
+
+- Following the instruction to create clusters (Just Default) & services
+- Expose port 80 to the public
+- https://img-b.udemycdn.com/redactor/raw/q_and_a/2023-02-03_02-03-02-4a021ccfe13f19888dc623635d4f1b3a.png
+
+3. Updating deployment
+
+- Rebuilding image in local
+- Push image
+- Update AWS ECS Service
